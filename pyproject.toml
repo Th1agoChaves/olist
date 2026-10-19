@@ -20,6 +20,7 @@ dependencies = [
     "ipython",
     "ipywidgets>=8.1.9",
     "jupyterlab",
+    "lightgbm>=4.7.0",
     "loguru",
     "matplotlib",
     "mkdocs",
@@ -34,6 +35,7 @@ dependencies = [
     "scikit-learn",
     "tqdm",
     "typer",
+    "xgboost>=3.4.1",
 ]
 requires-python = ">=3.12,<3.13"
 
