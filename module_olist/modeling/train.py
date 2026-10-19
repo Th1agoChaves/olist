@@ -5,31 +5,29 @@ import joblib
 
 from loguru import logger
 
-from module_olist.modeling.pipeline import (
+from module_olist.modeling.pipeline import(
     create_gradient_boosting_pipeline,
     create_xgboost_pipeline,
-    create_lightgbm_pipeline,
+    create_lightgbm_pipeline
 )
 
 
 def create_selected_model(
-    model_name,
+    model_name
 ):
     """
     Cria o pipeline correspondente
     ao modelo selecionado.
     """
 
-    pipelines = {
+    pipelines= {
         "Gradient Boosting": create_gradient_boosting_pipeline,
         "XGBoost": create_xgboost_pipeline,
-        "LightGBM": create_lightgbm_pipeline,
+        "LightGBM": create_lightgbm_pipeline
     }
 
     if model_name not in pipelines:
-        raise ValueError(
-            f"Modelo desconhecido: {model_name}"
-        )
+        raise ValueError(f"Modelo desconhecido: {model_name}")
 
     return pipelines[model_name]()
 
@@ -40,7 +38,7 @@ def train_model(
     X_train,
     y_train,
     model_path,
-    metadata_path,
+    metadata_path
 ):
     """
     Treina o modelo selecionado utilizando
@@ -48,70 +46,62 @@ def train_model(
     e salva modelo e metadados.
     """
 
-    logger.info(
-        f"Treinando modelo final: {model_name}"
-    )
+    logger.info(f"Treinando modelo final: {model_name}")
 
-    # -------------------------------------------------
-    # Cria somente o modelo vencedor
-    # -------------------------------------------------
+    #-------------------------------------------------
+    #Cria somente o modelo vencedor
+    #-------------------------------------------------
 
-    model = create_selected_model(
-        model_name
-    )
+    model= create_selected_model(model_name)
 
-    # -------------------------------------------------
-    # Treina com TODO o conjunto de treino
-    # -------------------------------------------------
+    #-------------------------------------------------
+    #Treina com todo o conjunto de treino
+    #-------------------------------------------------
 
     model.fit(
         X_train,
-        y_train,
+        y_train
     )
 
-    # -------------------------------------------------
-    # Salva pipeline completo
-    # -------------------------------------------------
+    #-------------------------------------------------
+    #Salva pipeline completo
+    #-------------------------------------------------
 
     model_path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
+        parents=    True,
+        exist_ok=   True
     )
 
     joblib.dump(
         model,
-        model_path,
+        model_path
     )
 
-    logger.success(
-        f"Modelo salvo em: {model_path}"
-    )
+    logger.success(f"Modelo salvo em: {model_path}")
 
-    # -------------------------------------------------
-    # Salva metadados
-    # -------------------------------------------------
+    #-------------------------------------------------
+    #Salva metadados
+    #-------------------------------------------------
 
-    metadata = {
+    metadata= {
         "model_name": model_name,
         "threshold": float(threshold),
         "selection_metric": "pr_auc",
-        "threshold_metric": "f1",
+        "threshold_metric": "f1"
     }
 
     with open(
         metadata_path,
         "w",
-        encoding="utf-8",
+        encoding="utf-8"
     ) as file:
 
         json.dump(
             metadata,
             file,
-            indent=4,
+            indent=4
         )
 
-    logger.success(
-        f"Metadados salvos em: {metadata_path}"
-    )
+    logger.success(f"Metadados salvos em: {metadata_path}")
 
     return model

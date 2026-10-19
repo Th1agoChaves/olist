@@ -1,72 +1,46 @@
 from loguru import logger
 
-from sklearn.metrics import (
+from sklearn.metrics import(
     accuracy_score,
     precision_score,
     recall_score,
     f1_score,
     roc_auc_score,
-    average_precision_score,
+    average_precision_score
 )
-
 
 def evaluate_model(
     model,
     model_name,
     X_test,
     y_test,
-    threshold,
+    threshold
 ):
     """
     Realiza a avaliação final do modelo
     no conjunto de teste.
     """
 
-    # Probabilidade da classe positiva
-    y_proba = model.predict_proba(
-        X_test
-    )[:, 1]
+    #Probabilidade da classe positiva
+    y_proba= model.predict_proba(X_test)[:, 1]
 
-    # Aplica o threshold definido na validação
-    y_pred = (
-        y_proba >= threshold
-    ).astype(int)
+    #Aplica o threshold definido na validação
+    y_pred= (y_proba>= threshold).astype(int)
 
-    # Métricas
-    accuracy = accuracy_score(
-        y_test,
-        y_pred,
-    )
+    #Métricas
+    accuracy= accuracy_score(y_test, y_pred)
 
-    precision = precision_score(
-        y_test,
-        y_pred,
-        zero_division=0,
-    )
+    precision= precision_score(y_test, y_pred, zero_division=0)
 
-    recall = recall_score(
-        y_test,
-        y_pred,
-        zero_division=0,
-    )
+    recall= recall_score(y_test, y_pred, zero_division=0)
 
-    f1 = f1_score(
-        y_test,
-        y_pred,
-        zero_division=0,
-    )
+    f1= f1_score(y_test, y_pred, zero_division=0)
 
-    roc_auc = roc_auc_score(
-        y_test,
-        y_proba,
-    )
+    roc_auc= roc_auc_score(y_test, y_proba)
 
-    pr_auc = average_precision_score(
-        y_test,
-        y_proba,
-    )
+    pr_auc= average_precision_score(y_test, y_proba)
 
-    # Resultados Finais
+    #Resultados Finais
     logger.info("=" * 60)
 
     logger.success(

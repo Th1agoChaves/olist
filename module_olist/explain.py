@@ -7,17 +7,17 @@ from loguru import logger
 from module_olist.config import (
     FIGURES_DIR,
     INTERIM_DATA_DIR,
-    MODELS_DIR,
+    MODELS_DIR
 )
 
 from module_olist.modeling.predict import (
-    load_model,
+    load_model
 )
 
 from module_olist.modeling.interpret import (
     prepare_data_for_shap,
     create_explainer,
-    calculate_shap_values,
+    calculate_shap_values
 )
 
 
@@ -61,7 +61,7 @@ def main():
     X_transformed = (
         prepare_data_for_shap(
             pipeline=model,
-            X=X_sample,
+            X=X_sample
         )
     )
 
@@ -74,7 +74,7 @@ def main():
     shap_values = (
         calculate_shap_values(
             explainer=explainer,
-            X_transformed=X_transformed,
+            X_transformed=X_transformed
         )
     )
 
@@ -85,7 +85,7 @@ def main():
     shap.plots.bar(
         shap_values,
         max_display=10,
-        show=False,
+        show=False
     )
 
     plt.tight_layout()
@@ -94,7 +94,7 @@ def main():
          FIGURES_DIR /
         "shap_global_bar.png",
         dpi=300,
-        bbox_inches="tight",
+        bbox_inches="tight"
     )
 
     plt.close()
@@ -102,7 +102,7 @@ def main():
     shap.plots.beeswarm(
         shap_values,
         max_display=10,
-        show=False,
+        show=False
     )
 
     plt.tight_layout()
@@ -111,7 +111,7 @@ def main():
         FIGURES_DIR /
         "shap_beeswarm.png",
         dpi=300,
-        bbox_inches="tight",
+        bbox_inches="tight"
     )
 
     plt.close()
@@ -123,7 +123,7 @@ def main():
             sample_position
         ],
         max_display=10,
-        show=False,
+        show=False
     )
 
     plt.tight_layout()
@@ -132,7 +132,7 @@ def main():
         FIGURES_DIR /
         "shap_waterfall.png",
         dpi=300,
-        bbox_inches="tight",
+        bbox_inches="tight"
     )
 
     plt.close()
